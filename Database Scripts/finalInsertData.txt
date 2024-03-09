@@ -1,0 +1,244 @@
+USE schoolPickUp;
+
+INSERT INTO `schoolPickUp`.`system_admin` (`sysAdmin_ID`, `password`, `firstName`, `lastName`, `email`)
+VALUES
+    ('root', 'root', 'Root', 'Root', 'root@example.com'),
+    ('admin1', 'password1', 'John', 'Smith', 'john.smith@example.com'),
+    ('admin2', 'password2', 'Emily', 'Johnson', 'emily.johnson@example.com'),
+    ('admin3', 'password3', 'Michael', 'Brown', 'michael.brown@example.com'),
+    ('admin4', 'password4', 'Jessica', 'Davis', 'jessica.davis@example.com'),
+    ('admin5', 'password5', 'Christopher', 'Wilson', 'christopher.wilson@example.com');
+
+INSERT INTO `schoolPickUp`.`school` (`school_ID`, `school_Name`, `address`, `contactNo`, `type`)
+VALUES
+    ('school1', 'Maple High School', '123 Elm Street, Cityville', '123-456-7890', 'Public'),
+    ('school2', 'Willow Academy', '456 Oak Avenue, Townsville', '987-654-3210', 'Private'),
+    ('school3', 'Pinecrest Elementary', '789 Birch Road, Villagetown', '555-123-4567', 'Public');
+
+INSERT INTO `schoolPickUp`.`school_admin` (`schAdmin_ID`, `password`, `firstName`, `lastName`, `email`, `contactNo`, `address`, `school_ID`)
+VALUES
+    ('schoolAdmin1', 'password1', 'Alice', 'Smith', 'alice.smith@example.com', '123-456-7890', '123 Elm Street, Cityville', 'school1'),
+    ('schoolAdmin2', 'password2', 'Bob', 'Johnson', 'bob.johnson@example.com', '234-567-8901', '456 Elm Street, Cityville', 'school1'),
+    ('schoolAdmin3', 'password3', 'Carol', 'Williams', 'carol.williams@example.com', '345-678-9012', '789 Elm Street, Cityville', 'school1'),
+    ('schoolAdmin4', 'password4', 'David', 'Brown', 'david.brown@example.com', '456-789-0123', '456 Oak Avenue, Townsville', 'school2'),
+    ('schoolAdmin5', 'password5', 'Ella', 'Davis', 'ella.davis@example.com', '567-890-1234', '789 Oak Avenue, Townsville', 'school2'),
+    ('schoolAdmin6', 'password6', 'Frank', 'Garcia', 'frank.garcia@example.com', '678-901-2345', '911 Oak Avenue, Townsville', 'school2'),
+    ('schoolAdmin7', 'password7', 'Grace', 'Martinez', 'grace.martinez@example.com', '789-012-3456', '431 Birch Road, Villagetown', 'school3'),
+    ('schoolAdmin8', 'password8', 'Henry', 'Taylor', 'henry.taylor@example.com', '890-123-4567', '421 Birch Road, Villagetown', 'school3'),
+    ('schoolAdmin9', 'password9', 'Isabella', 'Anderson', 'isabella.anderson@example.com', '901-234-5678', '411 Birch Road, Villagetown', 'school3');
+
+INSERT INTO `schoolPickUp`.`parent` (`parent_ID`, `password`, `firstName`, `lastName`, `email`, `contactNo`, `address`, `subscription`, `school_ID`)
+VALUES
+    ('parent1', 'password1', 'John', 'Doe', 'john.doe@example.com', '111-111-1111', '123 Maple Street, Cityville', 'Premium', 'school1'),
+    ('parent2', 'password2', 'Jane', 'Smith', 'jane.smith@example.com', '222-222-2222', '456 Elm Avenue, Townsville', 'Premium', 'school1'),
+    ('parent3', 'password3', 'Michael', 'Johnson', 'michael.johnson@example.com', '333-333-3333', '789 Oak Road, Villagetown', DEFAULT, 'school1'),
+    ('parent4', 'password4', 'Emily', 'Williams', 'emily.williams@example.com', '444-444-4444', '567 Birch Lane, Cityville', DEFAULT, 'school1'),
+    ('parent5', 'password5', 'Daniel', 'Brown', 'daniel.brown@example.com', '555-555-5555', '890 Pine Street, Townsville', DEFAULT, 'school1'),
+    ('parent6', 'password6', 'Olivia', 'Davis', 'olivia.davis@example.com', '666-666-6666', '234 Elm Avenue, Cityville', 'Premium', 'school2'),
+    ('parent7', 'password7', 'William', 'Martinez', 'william.martinez@example.com', '777-777-7777', '789 Oak Road, Townsville', 'Premium', 'school2'),
+    ('parent8', 'password8', 'Sophia', 'Taylor', 'sophia.taylor@example.com', '888-888-8888', '456 Birch Lane, Villagetown', DEFAULT, 'school2'),
+    ('parent9', 'password9', 'James', 'Garcia', 'james.garcia@example.com', '999-999-9999', '123 Pine Street, Cityville', DEFAULT, 'school2'),
+    ('parent10', 'password10', 'Emma', 'Anderson', 'emma.anderson@example.com', '000-000-0000', '567 Elm Avenue, Townsville', DEFAULT, 'school2'),
+    ('parent11', 'password11', 'Liam', 'Miller', 'liam.miller@example.com', '111-222-3333', '890 Oak Road, Cityville', DEFAULT, 'school3'),
+    ('parent12', 'password12', 'Ava', 'Jackson', 'ava.jackson@example.com', '222-333-4444', '123 Birch Lane, Villagetown', DEFAULT, 'school3'),
+    ('parent13', 'password13', 'Noah', 'White', 'noah.white@example.com', '333-444-5555', '456 Pine Street, Townsville', DEFAULT, 'school3'),
+    ('parent14', 'password14', 'Mia', 'Lee', 'mia.lee@example.com', '444-555-6666', '789 Elm Avenue, Cityville', 'Premium', 'school3'),
+    ('parent15', 'password15', 'Ethan', 'Harris', 'ethan.harris@example.com', '555-666-7777', '567 Oak Road, Townsville', 'Premium', 'school3');
+
+INSERT INTO `schoolPickUp`.`vendor` (`vendor_ID`, `password`, `vendor_Name`, `address`, `email`, `contactNo`)
+VALUES
+    ('vendor1', 'password1', 'Golden Catering', '123 Main Street, London', 'info@goldencatering.co.uk', '123-456-7890'),
+    ('vendor2', 'password2', 'Royal Florists', '456 Rose Avenue, Manchester', 'contact@royalflorists.co.uk', '987-654-3210'),
+    ('vendor3', 'password3', 'Silver Transportation', '789 Bridge Road, Birmingham', 'info@silvertransport.co.uk', '555-123-4567'),
+    ('vendor4', 'password4', 'Dapper Formalwear', '234 Suit Lane, Liverpool', 'sales@dapperformalwear.co.uk', '111-222-3333'),
+    ('vendor5', 'password5', 'Elegant Decor', '567 Ballroom Street, Leeds', 'hello@elegantdecor.co.uk', '444-555-6666');
+
+INSERT INTO `schoolPickUp`.`school_vendor` (`vendor_ID`, `school_ID`)
+VALUES
+    ('vendor1', 'school1'),
+    ('vendor2', 'school2'),
+    ('vendor2', 'school3'),
+    ('vendor3', 'school3'),
+    ('vendor4', 'school2'),
+    ('vendor5', 'school3');
+
+INSERT INTO `schoolPickUp`.`teacher` (`teacher_ID`, `password`, `firstName`, `lastName`, `email`, `address`, `contactNo`, `school_ID`, `class_ID`)
+VALUES
+    ('teacher1', 'password1', 'Lily', 'Wang', 'lily.wang@example.com', '123 Blossom Lane, Cityville', '111-111-1111', 'school1', 1),
+    ('teacher2', 'password2', 'David', 'Li', 'david.li@example.com', '456 Elm Street, Townsville', '222-222-2222', 'school1', 2),
+    ('teacher3', 'password3', 'Sophia', 'Chen', 'sophia.chen@example.com', '789 Maple Road, Villagetown', '333-333-3333', 'school1', 3),
+    ('teacher4', 'password4', 'Oliver', 'Zhang', 'oliver.zhang@example.com', '234 Oak Avenue, Cityville', '444-444-4444', 'school2', 4),
+    ('teacher5', 'password5', 'Emily', 'Liu', 'emily.liu@example.com', '567 Pine Lane, Townsville', '555-555-5555', 'school2', 5),
+    ('teacher6', 'password6', 'Daniel', 'Wu', 'daniel.wu@example.com', '890 Elm Road, Villagetown', '666-666-6666', 'school2', 6),
+    ('teacher7', 'password7', 'Ava', 'Cheng', 'ava.cheng@example.com', '123 Cedar Avenue, Cityville', '777-777-7777', 'school3', 7),
+    ('teacher8', 'password8', 'Lucas', 'Zhao', 'lucas.zhao@example.com', '456 Birch Lane, Townsville', '888-888-8888', 'school3', 8),
+    ('teacher9', 'password9', 'Sophie', 'Lin', 'sophie.lin@example.com', '789 Maple Road, Villagetown', '999-999-9999', 'school3', 9);
+
+
+INSERT INTO `schoolPickUp`.`form_class` (`class_ID`, `class_Name`, `school_ID`)
+VALUES
+    (1, 'Class A', 'school1'),
+    (2, 'Class B', 'school1'),
+    (3, 'Class C', 'school1'),
+    (4, 'Class X', 'school2'),
+    (5, 'Class Y', 'school2'),
+    (6, 'Class Z', 'school2'),
+    (7, 'Class Alpha', 'school3'),
+    (8, 'Class Beta', 'school3'),
+    (9, 'Class Gamma', 'school3');
+
+INSERT INTO `schoolPickUp`.`child` (`child_ID`, `firstName`, `lastName`, `address`, `region`, `school_ID`, `parent_ID`, `class_ID`)
+VALUES
+    ('child1', 'Kai', 'Tan', '123 Orchard Road, Singapore', 'Central', 'school1', 'parent1', 1),
+    ('child2', 'Emma', 'Ng', '123 Orchard Road, Singapore', 'Central', 'school1', 'parent1', 1),
+    ('child3', 'Noah', 'Lim', '123 Orchard Road, Singapore', 'Central', 'school1', 'parent1', 1),
+    ('child4', 'Sophia', 'Koh', '456 Clementi Street, Singapore', 'West', 'school1', 'parent2', 2),
+    ('child5', 'Ethan', 'Lee', '456 Clementi Street, Singapore', 'West', 'school1', 'parent2', 2),
+    ('child6', 'Liam', 'Wong', '456 Clementi Street, Singapore', 'West', 'school1', 'parent2', 2),
+    ('child7', 'Mia', 'Tan', '101 Jurong East Avenue, Singapore', 'West', 'school1', 'parent3', 3),
+    ('child8', 'Oliver', 'Lau', '202 Tampines Road, Singapore', 'East', 'school1', 'parent4', 3),
+    ('child9', 'Ava', 'Chong', '303 Woodlands Drive, Singapore', 'North', 'school1', 'parent5', 3),
+    ('child10', 'Isaac', 'Ng', '404 Sengkang Road, Singapore', 'East', 'school1', 'parent6', 1),
+    ('child11', 'Chloe', 'Tan', '111 Raffles Place, Singapore', 'Central', 'school2', 'parent7', 4),
+    ('child12', 'Elijah', 'Ng', '222 Queen Street, Singapore', 'South', 'school2', 'parent8', 4),
+    ('child13', 'Zoe', 'Lim', '333 Orchard Road, Singapore', 'Central', 'school2', 'parent9', 4),
+    ('child14', 'Lucas', 'Koh', '444 Bishan Street, Singapore', 'Central', 'school2', 'parent10', 5),
+    ('child15', 'Grace', 'Lee', '555 Clementi Street, Singapore', 'West', 'school2', 'parent11', 5),
+    ('child16', 'Aiden', 'Wong', '666 Bukit Timah Road, Singapore', 'Central', 'school2', 'parent12', 5),
+    ('child17', 'Aria', 'Tan', '777 Jurong East Avenue, Singapore', 'West', 'school2', 'parent13', 6),
+    ('child18', 'Caleb', 'Lau', '888 Tampines Road, Singapore', 'East', 'school2', 'parent14', 6),
+    ('child19', 'Ella', 'Chong', '999 Woodlands Drive, Singapore', 'North', 'school2', 'parent15', 6);
+
+INSERT INTO `schoolPickUp`.`teacher_child` (`teacher_ID`, `child_ID`)
+VALUES
+    -- School 1 Teachers
+    ('teacher1', 'child1'),
+    ('teacher1', 'child2'),
+    ('teacher1', 'child3'),
+    ('teacher1', 'child4'),
+    ('teacher2', 'child5'),
+    ('teacher3', 'child6'),
+    ('teacher1', 'child7'),
+    ('teacher2', 'child8'),
+    ('teacher3', 'child9'),
+    ('teacher1', 'child10'),
+    ('teacher4', 'child11'),
+    ('teacher5', 'child12'),
+    ('teacher6', 'child13'),
+    ('teacher4', 'child14'),
+    ('teacher5', 'child15'),
+    ('teacher6', 'child16'),
+    ('teacher4', 'child17'),
+    ('teacher5', 'child18'),
+    ('teacher6', 'child19');
+
+INSERT INTO `schoolPickUp`.`school_gate` (`gate_Name`, `capacity`, `school_ID`)
+VALUES
+  ('Gate1', 25, 'school1'),
+  ('Gate2', 20, 'school1'),
+  ('Gate3', 30, 'school1'),
+  ('Gate1', 28, 'school2'),
+  ('Gate4', 15, 'school2'),
+  ('Gate3', 22, 'school3'),
+  ('Gate2', 18, 'school3');
+
+INSERT INTO `schoolPickUp`.`driver` (`driver_ID`, `password`, `firstName`, `lastName`, `email`, `contactNo`, `address`, `license`, `vendor_ID`)
+VALUES
+    ('driver1', 'password1', 'Ravi', 'Kumar', 'ravi.kumar@example.com', '111-111-1111', '123 Main Street, Cityville', 'DL123456', 'vendor1'),
+    ('driver2', 'password2', 'Amit', 'Sharma', 'amit.sharma@example.com', '222-222-2222', '456 Elm Avenue, Townsville', 'XL234567', 'vendor1'),
+    ('driver3', 'password3', 'Priya', 'Patel', 'priya.patel@example.com', '333-333-3333', '789 Oak Road, Villagetown', 'GL345678', 'vendor1'),
+    ('driver4', 'password4', 'Sandeep', 'Singh', 'sandeep.singh@example.com', '444-444-4444', '567 Birch Lane, Cityville', 'DL456789', 'vendor2'),
+    ('driver5', 'password5', 'Deepika', 'Gupta', 'deepika.gupta@example.com', '555-555-5555', '890 Pine Street, Townsville', 'KK567890', 'vendor2'),
+    ('driver6', 'password6', 'Vikram', 'Rajput', 'vikram.rajput@example.com', '666-666-6666', '234 Elm Avenue, Cityville', 'LL678901', 'vendor2'),
+    ('driver7', 'password7', 'Anjali', 'Choudhury', 'anjali.choudhury@example.com', '777-777-7777', '789 Oak Road, Townsville', 'AS789012', 'vendor3'),
+    ('driver8', 'password8', 'Rajesh', 'Mishra', 'rajesh.mishra@example.com', '888-888-8888', '456 Birch Lane, Villagetown', 'SA890123', 'vendor3'),
+    ('driver9', 'password9', 'Smita', 'Verma', 'smita.verma@example.com', '999-999-9999', '123 Pine Street, Cityville', 'AG901234', 'vendor3'),
+    ('driver10', 'password10', 'Alok', 'Pandey', 'alok.pandey@example.com', '000-000-0000', '567 Elm Avenue, Townsville', 'PO012345', 'vendor4'),
+    ('driver11', 'password11', 'Meera', 'Biswas', 'meera.biswas@example.com', '111-222-3333', '890 Oak Road, Cityville', 'SH123456', 'vendor4'),
+    ('driver12', 'password12', 'Sanjay', 'Ghosh', 'sanjay.ghosh@example.com', '222-333-4444', '123 Birch Lane, Villagetown', 'AZ234567', 'vendor4'),
+    ('driver13', 'password13', 'Ritu', 'Rai', 'ritu.rai@example.com', '333-444-5555', '456 Pine Street, Townsville', 'ZN345678', 'vendor5'),
+    ('driver14', 'password14', 'Vivek', 'Sinha', 'vivek.sinha@example.com', '444-555-6666', '789 Elm Avenue, Cityville', 'DJ456789', 'vendor5'),
+    ('driver15', 'password15', 'Neha', 'Chopra', 'neha.chopra@example.com', '555-666-7777', '567 Oak Road, Townsville', 'AL567890', 'vendor5');
+
+INSERT INTO `schoolPickUp`.`vehicle` (`vehicle_Plate`, `vehicle_Type`, `capacity`, `vendor_ID`)
+VALUES
+    ('ABC123', 'small', 10, 'vendor1'),
+    ('DEF456', 'medium', 20, 'vendor1'),
+    ('GHI789', 'large', 40, 'vendor1'),
+    ('XYZ789', 'small', 10, 'vendor1'),
+    ('LMN012', 'medium', 20, 'vendor1'),
+    ('UVW345', 'large', 40, 'vendor1'),
+    ('JKL012', 'small', 10, 'vendor2'),
+    ('MNO345', 'medium', 20, 'vendor2'),
+    ('PQR678', 'large', 40, 'vendor2'),
+    ('STU901', 'small', 10, 'vendor3'),
+    ('VWX234', 'medium', 20, 'vendor3'),
+    ('YZA567', 'large', 40, 'vendor3'),
+    ('BCD890', 'small', 10, 'vendor4'),
+    ('EFG123', 'medium', 20, 'vendor4'),
+    ('HIJ456', 'large', 40, 'vendor4'),
+    ('KLM789', 'small', 10, 'vendor5'),
+    ('NOP012', 'medium', 20, 'vendor5'),
+    ('QRS345', 'large', 40, 'vendor5');
+
+INSERT INTO `schoolPickUp`.`announcement` (`message`, `datePosted`, `lastUpdated`, `schAdmin_ID`)
+VALUES
+    ('Important: School picnic on Friday', '2023-08-18 09:00:00', '2023-08-18 09:00:00', 'schoolAdmin1'),
+    ('Reminder: Parent-Teacher Meeting next week', '2023-08-15 14:30:00', '2023-08-16 10:15:00', 'schoolAdmin1'),
+    ('Update: New school policy regarding uniforms', '2023-08-12 11:45:00', '2023-08-12 11:45:00', 'schoolAdmin1'),
+    ('Event: Annual Science Fair on October 5th', '2023-08-10 13:20:00', '2023-08-11 09:30:00', 'schoolAdmin2'),
+    ('Notice: School will be closed on Monday', '2023-08-08 17:00:00', '2023-08-08 17:00:00', 'schoolAdmin2'),
+    ('Alert: Traffic diversion due to construction', '2023-08-05 08:45:00', '2023-08-06 10:00:00', 'schoolAdmin2'),
+    ('Reminder: Last day to submit exam forms', '2023-08-03 15:30:00', '2023-08-04 09:15:00', 'schoolAdmin3'),
+    ('Update: Change in school bus schedule', '2023-08-01 12:00:00', '2023-08-02 11:30:00', 'schoolAdmin3'),
+    ('Event: School Sports Day rescheduled to September', '2023-07-28 16:15:00', '2023-07-29 08:45:00', 'schoolAdmin3'),
+    ('Important: School picnic on Friday', '2023-08-18 09:00:00', '2023-08-18 09:00:00', 'schoolAdmin4'),
+    ('Reminder: Parent-Teacher Meeting next week', '2023-08-15 14:30:00', '2023-08-16 10:15:00', 'schoolAdmin4'),
+    ('Update: New school policy regarding uniforms', '2023-08-12 11:45:00', '2023-08-12 11:45:00', 'schoolAdmin4'),
+    ('Event: Annual Science Fair on October 5th', '2023-08-10 13:20:00', '2023-08-11 09:30:00', 'schoolAdmin5'),
+    ('Notice: School will be closed on Monday', '2023-08-08 17:00:00', '2023-08-08 17:00:00', 'schoolAdmin5'),
+    ('Alert: Traffic diversion due to construction', '2023-08-05 08:45:00', '2023-08-06 10:00:00', 'schoolAdmin5'),
+    ('Reminder: Last day to submit exam forms', '2023-08-03 15:30:00', '2023-08-04 09:15:00', 'schoolAdmin6'),
+    ('Update: Change in school bus schedule', '2023-08-01 12:00:00', '2023-08-02 11:30:00', 'schoolAdmin6'),
+    ('Event: School Sports Day rescheduled to September', '2023-07-28 16:15:00', '2023-07-29 08:45:00', 'schoolAdmin6'),
+    ('Important: School picnic on Friday', '2023-08-18 09:00:00', '2023-08-18 09:00:00', 'schoolAdmin7'),
+    ('Reminder: Parent-Teacher Meeting next week', '2023-08-15 14:30:00', '2023-08-16 10:15:00', 'schoolAdmin7'),
+    ('Update: New school policy regarding uniforms', '2023-08-12 11:45:00', '2023-08-12 11:45:00', 'schoolAdmin7'),
+    ('Event: Annual Science Fair on October 5th', '2023-08-10 13:20:00', '2023-08-11 09:30:00', 'schoolAdmin8'),
+    ('Notice: School will be closed on Monday', '2023-08-08 17:00:00', '2023-08-08 17:00:00', 'schoolAdmin8'),
+    ('Alert: Traffic diversion due to construction', '2023-08-05 08:45:00', '2023-08-06 10:00:00', 'schoolAdmin8'),
+    ('Reminder: Last day to submit exam forms', '2023-08-03 15:30:00', '2023-08-04 09:15:00', 'schoolAdmin9'),
+    ('Update: Change in school bus schedule', '2023-08-01 12:00:00', '2023-08-02 11:30:00', 'schoolAdmin9'),
+    ('Event: School Sports Day rescheduled to September', '2023-07-28 16:15:00', '2023-07-29 08:45:00', 'schoolAdmin9'),
+    ('In a distant land, under the silver moonlight, a lone traveler wandered through the enchanted forest. Ancient trees whispered their secrets as he followed an elusive trail of stars. Lost in reverie, he stumbled upon a hidden glade, where fireflies danced like floating embers. Nature\'s magic embraced him, filling his heart with wonder and serenity.', '2023-08-17 13:45:00', '2023-08-17 13:45:00', 'schoolAdmin1'),
+    ('Amidst the bustling city, a quaint bookstore stood, its shelves a treasure trove of forgotten tales. Old tomes with weathered pages exuded the scent of nostalgia. Each book whispered a story, and the bookseller, a guardian of dreams, welcomed every curious soul seeking solace in the written word', '2023-08-17 13:45:00', '2023-08-17 13:45:00', 'schoolAdmin1'),
+    ('Beneath a starlit sky, a campfire crackled, and laughter echoed among friends. They shared stories of adventures, real and imagined, and dreams that knew no bounds. Embers glowed like fallen stars, and in that moment, time ceased to exist as they bonded over the magic of friendship', '2023-08-17 13:45:00', '2023-08-17 13:45:00', 'schoolAdmin1'),
+    ('On a coastal cliff, the lighthouse stood tall, guiding lost ships home. Its beacon swept the horizon, revealing hidden treasures in the vast ocean. Brave sailors found solace in its glow, knowing that even in the darkest storm, there was a guiding light to lead them ashore.', '2023-08-17 13:45:00', '2023-08-17 13:45:00', 'schoolAdmin1'),
+    ('In a parallel universe, where colors danced and gravity swayed, a peculiar creature named Zephyr soared through iridescent skies. Its wings shimmered like rainbows, and its laughter tinkled like chimes. With every flight, it painted ephemeral art, leaving a trail of dreams for dreamers to follow', '2023-08-17 13:45:00', '2023-08-17 13:45:00', 'schoolAdmin1');
+
+INSERT INTO `schoolPickUp`.`selfpickup_jobs` (`jobcreated`, `timeslot`, `jobfinished`, `parent_ID`, `child_ID`, `gate_ID`, `school_ID`)
+VALUES
+    ('2023-08-18 10:15:00', '2:00pm', NULL, 'parent1', 'child2', 2, 'school1'),
+    ('2023-08-18 10:30:00', '2:30pm', NULL, 'parent1', 'child3', 3, 'school1'),
+    ('2023-08-18 10:45:00', '3:00pm', NULL, 'parent2', 'child4', 1, 'school1'),
+    ('2023-08-18 11:00:00', '3:30pm', NULL, 'parent2', 'child5', 2, 'school1'),
+    ('2023-08-18 10:00:00', '1:30pm', NULL, 'parent7', 'child11', 4, 'school2'),
+    ('2023-08-18 10:15:00', '2:00pm', NULL, 'parent8', 'child12', 5, 'school2'),
+    ('2023-08-18 10:30:00', '2:30pm', NULL, 'parent9', 'child13', 4, 'school2'),
+    ('2023-08-18 10:45:00', '3:00pm', NULL, 'parent10', 'child14', 4, 'school2'),
+    ('2023-08-18 11:00:00', '3:30pm', NULL, 'parent11', 'child15', 4, 'school2'),
+    ('2023-08-18 10:00:00', '1:30pm', NULL, 'parent12', 'child16', 6, 'school3'),
+    ('2023-08-18 10:15:00', '2:00pm', NULL, 'parent13', 'child17', 7, 'school3'),
+    ('2023-08-18 10:30:00', '2:30pm', NULL, 'parent14', 'child18', 6, 'school3'),
+    ('2023-08-18 10:45:00', '3:00pm', NULL, 'parent15', 'child19', 7, 'school3');
+
+INSERT INTO `schoolPickUp`.`vehiclepickup_jobs` (`jobcreated`, `timeslot`, `dropoff_Address`, `dropoff_Region`, `parent_ID`, `child_ID`, `school_ID`)
+VALUES
+    ('2023-08-18 11:30:00', '2:30pm', '456 Clementi Street, Singapore', 'West', 'parent2', 'child6', 'school1'),
+    ('2023-08-18 11:45:00', '2:30pm', '101 Jurong East Avenue, Singapore', 'West', 'parent3', 'child7', 'school1'),
+    ('2023-08-18 12:00:00', '5:30pm', '202 Tampines Road, Singapore', 'East', 'parent4', 'child8', 'school1'),
+    ('2023-08-18 12:15:00', '5:30pm', '303 Woodlands Drive, Singapore', 'North', 'parent5', 'child9', 'school1'),
+    ('2023-08-18 13:15:00', '5:30pm', '404 Sengkang Road, Singapore', 'East', 'parent6', 'child10', 'school1');
+
+COMMIT;
+

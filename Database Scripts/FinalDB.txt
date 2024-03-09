@@ -1,0 +1,402 @@
+BEGIN;
+
+/* DROP SCHEMA IF EXIST */
+DROP SCHEMA IF EXISTS schoolPickUp;
+
+/*CREATE THE SCHEMA*/
+CREATE SCHEMA `schoolPickUp`;
+
+/*USE THE SCHEMA*/
+USE schoolPickUp;
+
+DROP TABLE IF EXISTS system_admin;
+DROP TABLE IF EXISTS school;
+DROP TABLE IF EXISTS school_admin;
+DROP TABLE IF EXISTS parent;
+DROP TABLE IF EXISTS vendor;
+DROP TABLE IF EXISTS school_vendor;
+DROP TABLE IF EXISTS teacher;
+DROP TABLE IF EXISTS form_class;
+DROP TABLE IF EXISTS child;
+DROP TABLE IF EXISTS teacher_child;
+DROP TABLE IF EXISTS school_gate;
+DROP TABLE IF EXISTS gate_assignment;
+DROP TABLE IF EXISTS driver;
+DROP TABLE IF EXISTS vehicle;
+DROP TABLE IF EXISTS vehicle_assignment;
+DROP TABLE IF EXISTS selfpickup_jobs;
+DROP TABLE IF EXISTS vehiclepickup_jobs;
+DROP TABLE IF EXISTS announcement;
+DROP TABLE IF EXISTS schedules;
+
+CREATE TABLE `schoolPickUp`.`system_admin`(
+  `sysAdmin_ID` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `firstName` varchar(45) NOT NULL,
+  `lastName` varchar(45) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `contactNo` varchar(45) NULL,
+  `imageURI` varchar(450) NULL,
+  PRIMARY KEY (`sysAdmin_ID`));
+  
+CREATE TABLE `schoolPickUp`.`school` (
+  `school_ID` varchar(45) NOT NULL,
+  `school_Name` varchar(45) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `contactNo` varchar(45) NOT NULL,
+  `type` varchar(45) NOT NULL,
+  `imageURI` varchar(450) NULL,
+  PRIMARY KEY (`school_ID`));
+  
+CREATE TABLE `schoolPickUp`.`school_admin` (
+  `schAdmin_ID` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `firstName` varchar(45) NOT NULL,
+  `lastName` varchar(45) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `contactNo` varchar(45) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `imageURI` varchar(450) NULL,
+  `school_ID` varchar(45) NOT NULL,
+  PRIMARY KEY (`schAdmin_ID`),
+  INDEX `school_admin_FK1_idx` (`school_ID` ASC) VISIBLE,
+  CONSTRAINT `school_admin_FK1`
+	FOREIGN KEY (`school_ID`) 
+	REFERENCES `schoolPickUp`.`school` (`school_ID`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE);
+
+CREATE TABLE `schoolPickUp`.`parent` (
+  `parent_ID` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `firstName`varchar(45) NOT NULL,
+  `lastName` varchar(45) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `contactNo` varchar(45) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `imageURI` varchar(450) NULL,
+  `subscription` varchar(45) NOT NULL DEFAULT 'Normal',
+  `school_ID` varchar(45) NOT NULL,
+  PRIMARY KEY (`parent_ID`),
+  INDEX `parent_FK1_idx` (`school_ID` ASC) VISIBLE,
+  CONSTRAINT `parent_FK1`
+	FOREIGN KEY (`school_ID`) 
+    REFERENCES `schoolPickUp`.`school` (`school_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+CREATE TABLE `schoolPickUp`.`vendor` (
+  `vendor_ID` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `vendor_Name` VARCHAR(45) NOT NULL,
+  `address` VARCHAR(100) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `contactNo` VARCHAR(45) NOT NULL,
+  `imageURI` varchar(450) NULL,
+  PRIMARY KEY (`vendor_ID`)
+);
+
+CREATE TABLE `schoolPickUp`.`school_vendor` (
+  `vendor_ID` varchar(45) NOT NULL,
+  `school_ID` varchar(45) NOT NULL,
+  PRIMARY KEY (`vendor_ID`,`school_ID`),
+  INDEX `sv_FK2_idx` (`school_ID` ASC) VISIBLE,
+  CONSTRAINT `sv_FK1` 
+	FOREIGN KEY (`vendor_ID`) 
+    REFERENCES `schoolPickUp`.`vendor` (`vendor_ID`)
+	ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `sv_FK2` 
+	FOREIGN KEY (`school_ID`) 
+    REFERENCES `schoolPickUp`.`school` (`school_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+
+CREATE TABLE `schoolPickUp`.`form_class` (
+  `class_ID` INT NOT NULL AUTO_INCREMENT,
+  `class_Name` VARCHAR(45) NOT NULL,
+  `school_ID` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`class_ID`),
+  INDEX `class_FK1_idx` (`school_ID`),
+  CONSTRAINT `class_FK1`
+    FOREIGN KEY (`school_ID`)
+    REFERENCES `schoolPickUp`.`school` (`school_ID`)
+);
+
+
+CREATE TABLE `schoolPickUp`.`teacher` (
+  `teacher_ID` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `firstName` VARCHAR(45) NOT NULL,
+  `lastName` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `address` VARCHAR(100) NOT NULL,
+  `contactNo` VARCHAR(45) NOT NULL,
+  `imageURI` VARCHAR(450) NULL,
+  `school_ID` VARCHAR(45) NOT NULL,
+  `class_ID` INT NULL,
+  PRIMARY KEY (`teacher_ID`),
+  INDEX `teacher_FK1_idx` (`school_ID`),
+  INDEX `teacher_FK2_indx` (`class_ID`),
+  CONSTRAINT `teacher_FK1`
+    FOREIGN KEY (`school_ID`)
+    REFERENCES `schoolPickUp`.`school` (`school_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+   CONSTRAINT `teacher_FK2`
+	FOREIGN KEY (`class_ID`)
+    REFERENCES `schoolPickUp`.`form_class`(`class_ID`)
+	ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE `schoolPickUp`.`child` (
+  `child_ID` VARCHAR(45) NOT NULL,
+  `firstName` VARCHAR(45) NOT NULL,
+  `lastName` VARCHAR(45) NOT NULL,
+  `address` VARCHAR(100) NOT NULL,
+  `region` VARCHAR(45) NOT NULL,
+  `imageURI` VARCHAR(450) NULL,
+  `school_ID` VARCHAR(45) NOT NULL,
+  `parent_ID` VARCHAR(45) NOT NULL,
+  `class_ID` INT NOT NULL,
+  PRIMARY KEY (`child_ID`),
+  INDEX `child_FK1_idx` (`school_ID`),
+  INDEX `child_FK2_idx` (`parent_ID`),
+  INDEX `child_FK3_idx` (`class_ID`),
+  CONSTRAINT `child_FK1`
+    FOREIGN KEY (`school_ID`)
+    REFERENCES `schoolPickUp`.`school` (`school_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `child_FK2`
+    FOREIGN KEY (`parent_ID`)
+    REFERENCES `schoolPickUp`.`parent` (`parent_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `child_FK3`
+    FOREIGN KEY (`class_ID`)
+    REFERENCES `schoolPickUp`.`form_class` (`class_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE `schoolPickUp`.`teacher_child` (
+  `teacher_ID` VARCHAR(45) NOT NULL,
+  `child_ID` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`teacher_ID`, `child_ID`),
+  INDEX `tc_FK2_idx` (`child_ID`),
+  CONSTRAINT `tc_FK1`
+    FOREIGN KEY (`teacher_ID`)
+    REFERENCES `schoolPickUp`.`teacher` (`teacher_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `tc_FK2`
+    FOREIGN KEY (`child_ID`)
+    REFERENCES `schoolPickUp`.`child` (`child_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE `schoolPickUp`.`school_gate` (
+  `gate_ID` INT NOT NULL AUTO_INCREMENT,
+  `gate_Name` VARCHAR(45) NOT NULL,
+  `capacity` INT NOT NULL,
+  `school_ID` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`gate_ID`),
+  INDEX `school_gate_FK1_idx` (`school_ID`),
+  CONSTRAINT `school_gate_FK1`
+    FOREIGN KEY (`school_ID`)
+    REFERENCES `schoolPickUp`.`school` (`school_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE `schoolPickUp`.`gate_assignment` (
+  `gate_ID` INT NOT NULL,
+  `teacher_ID` VARCHAR(45) NOT NULL,
+  `datetime` DATETIME NOT NULL,
+  PRIMARY KEY (`gate_ID`, `teacher_ID`, `datetime`),
+  INDEX `ga_FK2_idx` (`teacher_ID`),
+  CONSTRAINT `ga_FK1`
+    FOREIGN KEY (`gate_ID`)
+    REFERENCES `schoolPickUp`.`school_gate` (`gate_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `ga_FK2`
+    FOREIGN KEY (`teacher_ID`)
+    REFERENCES `schoolPickUp`.`teacher` (`teacher_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE `schoolPickUp`.`driver` (
+  `driver_ID` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `firstName` VARCHAR(45) NOT NULL,
+  `lastName` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `contactNo` VARCHAR(45) NOT NULL,
+  `address` VARCHAR(100) NOT NULL,
+  `imageURI` VARCHAR(450) NULL,
+  `license` VARCHAR(45) NOT NULL,
+  `vendor_ID` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`driver_ID`),
+  UNIQUE KEY `license_UNIQUE` (`license`),
+  KEY `driver_Fk1_idx` (`vendor_ID`),
+  CONSTRAINT `driver_Fk1`
+    FOREIGN KEY (`vendor_ID`)
+    REFERENCES `schoolPickUp`.`vendor` (`vendor_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE `schoolPickUp`.`vehicle` (
+  `vehicle_Plate` VARCHAR(45) NOT NULL,
+  `vehicle_Type` VARCHAR(45) NOT NULL,
+  `capacity` VARCHAR(45) NOT NULL,
+  `vendor_ID` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`vehicle_Plate`),
+  INDEX `vehicle_FK1_idx` (`vendor_ID` ASC) VISIBLE,
+  CONSTRAINT `vehicle_FK1`
+    FOREIGN KEY (`vendor_ID`)
+    REFERENCES `schoolPickUp`.`vendor` (`vendor_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+    
+CREATE TABLE `schoolPickUp`.`vehicle_assignment` (
+  `vehicle_Plate` VARCHAR(45) NOT NULL,
+  `driver_ID` VARCHAR(45) NOT NULL,
+  `datetime` DATETIME NOT NULL,
+  PRIMARY KEY (`vehicle_Plate`, `driver_ID`, `datetime`),
+  INDEX `va_FK2_idx` (`driver_ID` ASC) VISIBLE,
+  CONSTRAINT `va_FK1`
+    FOREIGN KEY (`vehicle_Plate`)
+    REFERENCES `schoolPickUp`.`vehicle` (`vehicle_Plate`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `va_FK2`
+    FOREIGN KEY (`driver_ID`)
+    REFERENCES `schoolPickUp`.`driver` (`driver_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+CREATE TABLE `schoolPickUp`.`selfpickup_jobs` (
+  `spu_Job_ID` INT NOT NULL AUTO_INCREMENT,
+  `jobcreated` DATETIME NOT NULL,
+  `timeslot` VARCHAR(45) NOT NULL,
+  `jobfinished` DATETIME NULL,
+  `parent_ID` VARCHAR(45) NOT NULL,
+  `child_ID` VARCHAR(45) NOT NULL,
+  `gate_ID` INT NOT NULL,
+  `school_ID` VARCHAR(45) NOT NULL,
+  `status` VARCHAR(45) NOT NULL DEFAULT 'Waiting',
+  PRIMARY KEY (`spu_Job_ID`),
+  INDEX `Job1_FK1_idx` (`parent_ID` ASC) VISIBLE,
+  INDEX `Job1_FK2_idx` (`child_ID` ASC) VISIBLE,
+  INDEX `Job1_FK3_idx` (`gate_ID` ASC) VISIBLE,
+  INDEX `Job1_FK4_idx` (`school_ID` ASC) VISIBLE,
+  CONSTRAINT `Job1_FK1`
+    FOREIGN KEY (`parent_ID`)
+    REFERENCES `schoolPickUp`.`parent` (`parent_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `Job1_FK2`
+    FOREIGN KEY (`child_ID`)
+    REFERENCES `schoolPickUp`.`child` (`child_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `Job1_FK3`
+    FOREIGN KEY (`gate_ID`)
+    REFERENCES `schoolPickUp`.`school_gate` (`gate_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `Job1_FK4`
+    FOREIGN KEY (`school_ID`)
+    REFERENCES `schoolPickUp`.`school` (`school_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+CREATE TABLE `schoolPickUp`.`vehiclepickup_jobs` (
+  `vpu_Job_ID` INT NOT NULL AUTO_INCREMENT,
+  `jobcreated` DATETIME NOT NULL,
+  `timeslot` VARCHAR(45) NOT NULL,
+  `jobassigned` DATETIME NULL,
+  `jobfinished` DATETIME NULL,
+  `dropoff_Address` VARCHAR(100) NOT NULL,
+  `dropoff_Region` VARCHAR(45) NOT NULL,
+  `parent_ID` VARCHAR(45) NOT NULL,
+  `child_ID` VARCHAR(45) NOT NULL,
+  `vehicle_Plate` VARCHAR(45) NULL,
+  `driver_ID` VARCHAR(45) NULL,
+  `school_ID` VARCHAR(45) NOT NULL,
+  `status` VARCHAR(45) NOT NULL DEFAULT 'Waiting',
+  PRIMARY KEY (`vpu_Job_ID`),
+  INDEX `Job2_Fk1_idx` (`parent_ID` ASC) VISIBLE,
+  INDEX `Job2_FK2_idx` (`child_ID` ASC) VISIBLE,
+  INDEX `Job2_Fk3_idx` (`vehicle_Plate` ASC) VISIBLE,
+  INDEX `Job2_Fk4_idx` (`driver_ID` ASC) VISIBLE,
+  INDEX `Job2_Fk5_idx` (`school_ID` ASC) VISIBLE,
+  CONSTRAINT `Job2_Fk1`
+    FOREIGN KEY (`parent_ID`)
+    REFERENCES `schoolPickUp`.`parent` (`parent_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `Job2_FK2`
+    FOREIGN KEY (`child_ID`)
+    REFERENCES `schoolPickUp`.`child` (`child_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `Job2_Fk3`
+    FOREIGN KEY (`vehicle_Plate`)
+    REFERENCES `schoolPickUp`.`vehicle` (`vehicle_Plate`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `Job2_Fk4`
+    FOREIGN KEY (`driver_ID`)
+    REFERENCES `schoolPickUp`.`driver` (`driver_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `Job2_Fk5`
+    FOREIGN KEY (`school_ID`)
+    REFERENCES `schoolPickUp`.`school` (`school_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+CREATE TABLE `schoolPickUp`.`announcement` (
+  `ann_ID` INT NOT NULL AUTO_INCREMENT,
+  `message` LONGTEXT NOT NULL,
+  `datePosted` DATETIME NOT NULL,
+  `lastUpdated` DATETIME NULL,
+  `schAdmin_ID` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`ann_ID`),
+  INDEX `ann_FK1_idx` (`schAdmin_ID` ASC) VISIBLE,
+  CONSTRAINT `ann_FK1`
+    FOREIGN KEY (`schAdmin_ID`)
+    REFERENCES `schoolPickUp`.`school_admin` (`schAdmin_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+CREATE TABLE `schoolPickUp`.`schedules` (
+  `schedule_ID` INT NOT NULL AUTO_INCREMENT,
+  `description` VARCHAR(4500) NULL,
+  `year` VARCHAR(45) NOT NULL,
+  `imageURI` VARCHAR(450) NULL,
+  `schAdmin_ID` VARCHAR(45) NOT NULL,
+  `school_ID` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`schedule_ID`),
+  INDEX `s_FK1_idx` (`schAdmin_ID` ASC) VISIBLE,
+  INDEX `s_FK2_idx` (`school_ID` ASC) VISIBLE,
+  CONSTRAINT `s_FK1`
+    FOREIGN KEY (`schAdmin_ID`)
+    REFERENCES `schoolPickUp`.`school_admin` (`schAdmin_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `s_FK2`
+    FOREIGN KEY (`school_ID`)
+    REFERENCES `schoolPickUp`.`school` (`school_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+    
+COMMIT;
